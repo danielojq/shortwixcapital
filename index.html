@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShortWixCapital</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a0e1a;
+    --navy-light: #111729;
+    --navy-mid: #1a2138;
+    --gold: #c9a84c;
+    --gold-light: #dfc47a;
+    --gold-dim: rgba(201,168,76,0.15);
+    --cream: #e8e2d6;
+    --white: #f5f2ed;
+    --text-secondary: #8a8f9e;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Outfit', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* === NAV === */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 1.5rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(10,14,26,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+    transition: padding 0.3s;
+  }
+  nav.scrolled { padding: 1rem 4rem; }
+
+  .logo {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+  }
+  .logo span { color: var(--white); font-weight: 300; }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .menu-toggle { display: none; background: none; border: none; cursor: pointer; }
+  .menu-toggle span {
+    display: block; width: 24px; height: 1.5px;
+    background: var(--gold); margin: 6px 0; transition: 0.3s;
+  }
+
+  /* === HERO === */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 40%, rgba(201,168,76,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 80% 60% at 20% 80%, rgba(201,168,76,0.03) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-line {
+    position: absolute; top: 0; left: 50%; width: 1px; height: 120px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    opacity: 0.4;
+  }
+
+  .hero-content { position: relative; max-width: 800px; }
+
+  .hero-tag {
+    font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 2rem; font-weight: 400;
+    opacity: 0; animation: fadeUp 1s 0.3s forwards;
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 300;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    opacity: 0; animation: fadeUp 1s 0.5s forwards;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    max-width: 520px;
+    margin: 0 auto 2.5rem;
+    opacity: 0; animation: fadeUp 1s 0.7s forwards;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    padding: 0.9rem 2.5rem;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: all 0.4s;
+    opacity: 0; animation: fadeUp 1s 0.9s forwards;
+  }
+  .hero-cta:hover {
+    background: var(--gold);
+    color: var(--navy);
+  }
+
+  /* === SECTIONS === */
+  section { padding: 7rem 4rem; }
+
+  .section-divider {
+    width: 40px; height: 1px;
+    background: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  .section-tag {
+    font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem; font-weight: 400;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    margin-bottom: 2rem;
+    line-height: 1.2;
+  }
+
+  /* === ABOUT === */
+  .about {
+    background: var(--navy-light);
+    border-top: 1px solid rgba(201,168,76,0.06);
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding-top: 1rem;
+  }
+
+  .stat {
+    padding: 2rem;
+    border: 1px solid rgba(201,168,76,0.1);
+    background: rgba(201,168,76,0.03);
+  }
+
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  /* === VALUES === */
+  .values { max-width: 1100px; margin: 0 auto; }
+
+  .values-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    margin-top: 3rem;
+  }
+
+  .value-card {
+    padding: 2.5rem 2rem;
+    border-top: 1px solid var(--gold);
+    background: var(--navy-light);
+    transition: transform 0.3s;
+  }
+  .value-card:hover { transform: translateY(-4px); }
+
+  .value-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+  }
+
+  .value-card p {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+  }
+
+  /* === CONTACT === */
+  .contact {
+    background: var(--navy-light);
+    border-top: 1px solid rgba(201,168,76,0.06);
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .contact-info p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+
+  .contact-detail {
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-detail-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+
+  .contact-detail-value {
+    color: var(--cream);
+    font-size: 0.95rem;
+  }
+  .contact-detail-value a {
+    color: var(--cream);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    transition: border-color 0.3s;
+  }
+  .contact-detail-value a:hover { border-color: var(--gold); }
+
+  form { display: flex; flex-direction: column; gap: 1.2rem; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+
+  input, textarea {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,168,76,0.1);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    font-weight: 300;
+    padding: 1rem 1.2rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  input::placeholder, textarea::placeholder { color: var(--text-secondary); }
+  input:focus, textarea:focus { border-color: var(--gold); }
+  textarea { resize: vertical; min-height: 140px; }
+
+  .btn-submit {
+    align-self: flex-start;
+    padding: 0.9rem 2.5rem;
+    border: 1px solid var(--gold);
+    background: transparent;
+    color: var(--gold);
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.4s;
+  }
+  .btn-submit:hover { background: var(--gold); color: var(--navy); }
+
+  /* === FOOTER === */
+  footer {
+    padding: 3rem 4rem;
+    border-top: 1px solid rgba(201,168,76,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-left {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  .footer-disclaimer {
+    max-width: 600px;
+    font-size: 0.68rem;
+    color: var(--text-secondary);
+    opacity: 0.6;
+    line-height: 1.6;
+    text-align: right;
+  }
+
+  /* === ANIMATIONS === */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.8s, transform 0.8s;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* === MOBILE === */
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    nav.scrolled { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex; flex-direction: column;
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: var(--navy);
+      padding: 2rem;
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+    }
+    .menu-toggle { display: block; }
+
+    section { padding: 4rem 1.5rem; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .values-row { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-disclaimer { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="logo">ShortWix<span>Capital</span></div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-line"></div>
+  <div class="hero-content">
+    <p class="hero-tag">Investment Management</p>
+    <h1>Disciplined Capital<br>for <em>Enduring</em> Returns</h1>
+    <p class="hero-sub">We deploy patient, research-driven strategies to compound wealth across market cycles.</p>
+    <a href="#about" class="hero-cta">Learn More</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <div class="section-divider"></div>
+      <p class="section-tag">About Us</p>
+      <h2 class="section-title">Built on Conviction,<br>Grounded in Research</h2>
+      <p>ShortWixCapital is an independent fund management company focused on generating superior risk-adjusted returns through fundamental analysis and disciplined portfolio construction.</p>
+      <p>Our team brings together decades of experience across public equities, credit, and alternative investments. We believe that deep research, patience, and intellectual honesty are the foundations of lasting investment success.</p>
+      <p>We manage capital for institutional investors, family offices, and qualified individuals who share our long-term orientation and commitment to prudent stewardship.</p>
+    </div>
+    <div class="about-stats reveal">
+      <div class="stat">
+        <div class="stat-number">$2.4B</div>
+        <div class="stat-label">Assets Under Management</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">2012</div>
+        <div class="stat-label">Year Founded</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">18</div>
+        <div class="stat-label">Investment Professionals</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Core Strategies</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section>
+  <div class="values reveal">
+    <div class="section-divider"></div>
+    <p class="section-tag">Our Approach</p>
+    <h2 class="section-title">Principles That Guide Us</h2>
+    <div class="values-row">
+      <div class="value-card">
+        <h3>Fundamental Rigour</h3>
+        <p>Every position is backed by proprietary research. We seek to understand businesses at a level that gives us conviction through volatility.</p>
+      </div>
+      <div class="value-card">
+        <h3>Risk Discipline</h3>
+        <p>Preservation of capital is not secondary to returns — it is the precondition. We size positions and construct portfolios with downside protection as a first principle.</p>
+      </div>
+      <div class="value-card">
+        <h3>Long-Term Horizon</h3>
+        <p>We invest with patience, allowing compounding to do its work. Our holding periods reflect the time it takes for value to be recognised, not the noise of quarterly cycles.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-grid">
+    <div class="reveal">
+      <div class="section-divider"></div>
+      <p class="section-tag">Contact</p>
+      <h2 class="section-title">Get in Touch</h2>
+      <p class="contact-info"><p>We welcome enquiries from qualified investors and potential partners. Please reach out and a member of our team will respond promptly.</p></p>
+      <div class="contact-detail">
+        <div class="contact-detail-label">Email</div>
+        <div class="contact-detail-value"><a href="mailto:info@shortwixcapital.com">info@shortwixcapital.com</a></div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-label">Office</div>
+        <div class="contact-detail-value">1 Raffles Place, Tower One<br>Singapore 048616</div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-label">Phone</div>
+        <div class="contact-detail-value"><a href="tel:+6562345678">+65 6234 5678</a></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <form onsubmit="event.preventDefault(); alert('Thank you for your enquiry. We will be in touch shortly.');">
+        <div class="form-row">
+          <input type="text" placeholder="Name" required>
+          <input type="email" placeholder="Email" required>
+        </div>
+        <input type="text" placeholder="Subject">
+        <textarea placeholder="Your message"></textarea>
+        <button type="submit" class="btn-submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">&copy; 2026 ShortWixCapital. All rights reserved.</div>
+  <div class="footer-disclaimer">
+    This website is for informational purposes only and does not constitute an offer or solicitation to invest. Past performance is not indicative of future results. Investing involves risk, including the possible loss of principal.
+  </div>
+</footer>
+
+<script>
+  // Nav scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Mobile menu
+  document.getElementById('menuToggle').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
